@@ -1,5 +1,45 @@
-const Transaction = () => {
-  return <h1> Transaction </h1>;
+import deleteImage from "../assets/images/delete.svg";
+import editImage from "../assets/images/edit.svg";
+import numberWithCommas from "../utils/numberWithCommas";
+
+type TransactionTypes = {
+  transaction: {
+    amount: string;
+    id: 3;
+    name: string;
+    type: "expense" | "income";
+  };
+};
+
+const Transaction = ({ transaction }: TransactionTypes) => {
+  const { name, amount, type } = transaction;
+  const handleEdit = () => {
+    //  dispatch(editActive(transaction));
+  };
+
+  const handleDelete = () => {
+    //  dispatch(removeTransaction(id));
+  };
+  return (
+    <>
+      <li
+        className={`m-auto text-white px-2 py-2 my-3 flex justify-between items-center ${
+          type === "expense" ? "bg-[#e6425e]" : "bg-[#4338ca]"
+        }`}
+      >
+        <p>{name}</p>
+        <div className="flex justify-between items-center gap-2">
+          <p>৳ {numberWithCommas(Number(amount))}</p>
+          <button className="text-white cursor-pointer" onClick={handleEdit}>
+            <img alt="Edit" className="w-[14px]" src={editImage} />
+          </button>
+          <button className="text-white cursor-pointer" onClick={handleDelete}>
+            <img alt="Delete" className="w-[14px]" src={deleteImage} />
+          </button>
+        </div>
+      </li>
+    </>
+  );
 };
 
 export default Transaction;

@@ -9,3 +9,5 @@ export const transactionsApi = apiSlice.injectEndpoints({
         // end points hear
     })
 })
+
+export const { useGetTransactionsQuery } = transactionsApi;
