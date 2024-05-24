@@ -7,20 +7,14 @@
       "id": 4
     },
     {
-      "name": "upori income",
-      "type": "income",
-      "amount": 20000,
-      "id": 5
-    },
-    {
       "name": "compupter",
       "type": "expense",
-      "amount": 200,
+      "amount": 500,
       "id": 6
     },
     {
-      "name": "hotel-booking 2",
-      "type": "expense",
+      "name": "hotel-booking",
+      "type": "income",
       "amount": 5000,
       "id": 10
     }

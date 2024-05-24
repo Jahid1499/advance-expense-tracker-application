@@ -3,7 +3,7 @@ import Error from "../../ui/Error";
 import Transaction from "../../ui/Transaction";
 
 type TransactionTypes = {
-  amount: string;
+  amount: number;
   id: 3;
   name: string;
   type: "expense" | "income";

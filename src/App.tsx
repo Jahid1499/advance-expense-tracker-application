@@ -17,10 +17,6 @@ function App() {
             </Routes>
           </BrowserRouter>
         </div>
-
-        <div className="p-[20px] text-center bg-[#4338ca] text-white">
-          &copy;2022 Copy right reserve
-        </div>
       </div>
     </>
   );

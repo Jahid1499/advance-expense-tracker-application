@@ -7,7 +7,7 @@ import numberWithCommas from "../utils/numberWithCommas";
 
 type TransactionTypes = {
   transaction: {
-    amount: string;
+    amount: number;
     id: 3;
     name: string;
     type: "expense" | "income";

@@ -4,20 +4,31 @@ import {
   useAddTransactionMutation,
   useUpdateTransactionMutation,
 } from "../features/transactions/transactionsApi";
+import Error from "./Error";
+import Success from "./Success";
 
 const Form = () => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
   const { editing } = useSelector((state) => state.transaction) || {};
 
-  const [addTransaction, { isLoading: addLoading, isError: addIsError }] =
-    useAddTransactionMutation();
+  const [
+    addTransaction,
+    { isLoading: addLoading, isError: addIsError, isSuccess: addIsSuccess },
+  ] = useAddTransactionMutation();
 
   const [
     updateTransaction,
-    { isLoading: updateLoading, isError: updateIsError },
+    {
+      isLoading: updateLoading,
+      isError: updateIsError,
+      isSuccess: updateIsSuccess,
+    },
   ] = useUpdateTransactionMutation();
 
   useEffect(() => {
@@ -37,32 +48,59 @@ const Form = () => {
     setName("");
     setType("");
     setAmount("");
+    setError("");
+    setError("");
+  };
+
+  const checkError = () => {
+    if (name.length < 3) {
+      setError("Name length must be greater than 3 letter");
+      return false;
+    }
+
+    if (type === null) {
+      setError("Type must be selected");
+      return false;
+    }
+
+    if (amount != null || amount === 0) {
+      setError("Must be insert amount");
+      return false;
+    }
+
+    return true;
   };
 
   const handleCreate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    addTransaction({
-      name,
-      type,
-      amount: Number(amount),
-    });
 
-    reset();
+    if (checkError()) {
+      addTransaction({
+        name,
+        type,
+        amount: Number(amount),
+      });
+
+      reset();
+    }
   };
 
   const handleUpdate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    updateTransaction({
-      id: editing.id,
-      data: {
-        name,
-        type,
-        amount: Number(amount),
-      },
-    });
-    setEditMode(false);
-    reset();
+    if (checkError()) {
+      updateTransaction({
+        id: editing.id,
+        data: {
+          name,
+          type,
+          amount: Number(amount),
+        },
+      });
+
+      setEditMode(false);
+      reset();
+    }
   };
 
   const cancelEditMode = () => {
@@ -70,8 +108,26 @@ const Form = () => {
     setEditMode(false);
   };
 
+  useEffect(() => {
+    if (addIsSuccess) {
+      setSuccess("Transaction is successfully added");
+    } else if (updateIsSuccess) {
+      setSuccess("Transaction is successfully updated");
+    }
+  }, [updateIsSuccess, addIsSuccess]);
+
+  useEffect(() => {
+    if (success.length > 1) {
+      setTimeout(() => {
+        setSuccess("");
+      }, 5000);
+    }
+  }, [success]);
+
   return (
     <div className="bg-[#f5f5f5] p-5">
+      {success.length > 1 && <Success message={success} />}
+      {error.length > 1 && <Error message={error} />}
       <h3 className="text-xl font-medium">Add new transaction</h3>
 
       <form onSubmit={editMode ? handleUpdate : handleCreate}>
