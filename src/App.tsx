@@ -9,7 +9,7 @@ function App() {
         <div className="p-[20px] text-center bg-[#4338ca] text-white text-4xl font-bold">
           <h1>Expense Tracker</h1>
         </div>
-        <div className="w-[21%] mx-auto my-5">
+        <div className="min-w-[26%] mx-auto my-5">
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
