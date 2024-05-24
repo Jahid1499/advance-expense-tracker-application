@@ -1,10 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  useAddTransactionMutation,
+  useUpdateTransactionMutation,
+} from "../features/transactions/transactionsApi";
 
 const Form = () => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [amount, setAmount] = useState("");
   const [editMode, setEditMode] = useState(false);
+  const { editing } = useSelector((state) => state.transaction) || {};
+
+  const [addTransaction, { isLoading: addLoading, isError: addIsError }] =
+    useAddTransactionMutation();
+
+  const [
+    updateTransaction,
+    { isLoading: updateLoading, isError: updateIsError },
+  ] = useUpdateTransactionMutation();
+
+  useEffect(() => {
+    const { id, name, amount, type } = editing || {};
+    if (id) {
+      setEditMode(true);
+      setName(name);
+      setType(type);
+      setAmount(amount);
+    } else {
+      setEditMode(false);
+      reset();
+    }
+  }, [editing]);
 
   const reset = () => {
     setName("");
@@ -12,30 +39,28 @@ const Form = () => {
     setAmount("");
   };
 
-  const handleCreate = (e) => {
+  const handleCreate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    // dispatch(
-    //   createTransaction({
-    //     name,
-    //     type,
-    //     amount: Number(amount),
-    //   })
-    // );
+    addTransaction({
+      name,
+      type,
+      amount: Number(amount),
+    });
+
     reset();
   };
 
-  const handleUpdate = (e) => {
+  const handleUpdate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    // dispatch(
-    //   changeTransaction({
-    //     id: editing?.id,
-    //     data: {
-    //       name: name,
-    //       amount: amount,
-    //       type: type,
-    //     },
-    //   })
-    // );
+
+    updateTransaction({
+      id: editing.id,
+      data: {
+        name,
+        type,
+        amount: Number(amount),
+      },
+    });
     setEditMode(false);
     reset();
   };
@@ -103,20 +128,23 @@ const Form = () => {
         </div>
 
         <button
-          disabled={false}
+          disabled={addLoading || updateLoading}
           className="w-[100%] border-0 cursor-pointer p-2 text-white bg-[#4338ca] hover:bg-[#094d3d]"
           type="submit"
         >
           {editMode ? "Update Transaction" : "Add Transaction"}
         </button>
 
-        {/* {!isLoading && isError && (
-          <p className="error">There was an error occured</p>
-        )} */}
+        {!addLoading && !updateLoading && (addIsError || updateIsError) && (
+          <p className="error">Something went wrong</p>
+        )}
       </form>
 
       {editMode && (
-        <button className="btn cancel_edit" onClick={cancelEditMode}>
+        <button
+          className="w-[100%] border-0 cursor-pointer p-2 mt-3 text-white bg-[#ec3d5ade] hover:bg-[#e64242]"
+          onClick={cancelEditMode}
+        >
           Cancel Edit
         </button>
       )}

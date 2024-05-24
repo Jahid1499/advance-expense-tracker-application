@@ -1,9 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "../features/api/apiSlice";
+import filterSliceReducer from '../features/filters/filtersSlice';
+import transactionsSliceReducer from '../features/transactions/transactionsSlice';
+
 
 export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer,
+        transaction: transactionsSliceReducer,
+        filters: filterSliceReducer,
     },
     devTools: import.meta.env.VITE_ENVIRONMENT_SERVER !== "production",
     middleware: (getDefaultMiddlewares) => getDefaultMiddlewares().concat(apiSlice.middleware),

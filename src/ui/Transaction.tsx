@@ -1,6 +1,8 @@
+import { useDispatch } from "react-redux";
 import deleteImage from "../assets/images/delete.svg";
 import editImage from "../assets/images/edit.svg";
 import { useDeleteTransactionMutation } from "../features/transactions/transactionsApi";
+import { editActive } from "../features/transactions/transactionsSlice";
 import numberWithCommas from "../utils/numberWithCommas";
 
 type TransactionTypes = {
@@ -15,15 +17,15 @@ type TransactionTypes = {
 const Transaction = ({ transaction }: TransactionTypes) => {
   const { id, name, amount, type } = transaction;
   const [deleteTransaction] = useDeleteTransactionMutation();
+  const dispatch = useDispatch();
   const handleEdit = () => {
-    //  dispatch(editActive(transaction));
+    dispatch(editActive(transaction));
   };
 
   const handleDelete = () => {
     const result = confirm("Want to delete?");
     if (result) {
       deleteTransaction(id);
-      // console.log(id);
     }
   };
 
