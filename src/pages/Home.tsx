@@ -1,5 +1,11 @@
+import Balance from "../ui/Balance";
+
 const Home = () => {
-  return <h1> Home </h1>;
+  return (
+    <>
+      <Balance />
+    </>
+  );
 };
 
 export default Home;

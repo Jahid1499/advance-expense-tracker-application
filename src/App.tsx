@@ -1,9 +1,27 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Transaction from "./pages/Transaction";
+
 function App() {
   return (
     <>
-      <h1 className="text-3xl font-bold underline bg-green-800 py-12 px-5 text-white">
-        Hello world!
-      </h1>
+      <div className="flex min-w-full flex-col">
+        <div className="p-[20px] text-center bg-[#4338ca] text-white text-4xl font-bold">
+          <h1>Expense Tracker</h1>
+        </div>
+        <div className="w-[21%] mx-auto my-5">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/transaction" element={<Transaction />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+
+        <div className="p-[20px] text-center bg-[#4338ca] text-white">
+          &copy;2022 Copy right reserve
+        </div>
+      </div>
     </>
   );
 }
