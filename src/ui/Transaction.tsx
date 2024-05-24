@@ -1,5 +1,6 @@
 import deleteImage from "../assets/images/delete.svg";
 import editImage from "../assets/images/edit.svg";
+import { useDeleteTransactionMutation } from "../features/transactions/transactionsApi";
 import numberWithCommas from "../utils/numberWithCommas";
 
 type TransactionTypes = {
@@ -12,14 +13,20 @@ type TransactionTypes = {
 };
 
 const Transaction = ({ transaction }: TransactionTypes) => {
-  const { name, amount, type } = transaction;
+  const { id, name, amount, type } = transaction;
+  const [deleteTransaction] = useDeleteTransactionMutation();
   const handleEdit = () => {
     //  dispatch(editActive(transaction));
   };
 
   const handleDelete = () => {
-    //  dispatch(removeTransaction(id));
+    const result = confirm("Want to delete?");
+    if (result) {
+      deleteTransaction(id);
+      // console.log(id);
+    }
   };
+
   return (
     <>
       <li
