@@ -27,11 +27,9 @@ const TransactionList = () => {
   }
 
   if (!isLoading && !isError && data?.length > 0) {
-    content = data
-      .slice(0, 5)
-      .map((transaction: TransactionTypes) => (
-        <Transaction key={transaction.id} transaction={transaction} />
-      ));
+    content = data.map((transaction: TransactionTypes) => (
+      <Transaction key={transaction.id} transaction={transaction} />
+    ));
   }
 
   return (

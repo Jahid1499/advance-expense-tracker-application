@@ -21,8 +21,6 @@ const Balance = () => {
         income -= amount;
       }
     });
-    console.log(income);
-
     return income;
   };
 

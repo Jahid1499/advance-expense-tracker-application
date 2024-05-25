@@ -1,5 +1,25 @@
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import FilterFrom from "../components/transactions/FilterFrom";
+import FilteredTransaction from "../components/transactions/FilteredTransaction";
+import Form from "../ui/Form";
+
 const Transaction = () => {
-  return <h1> Transaction </h1>;
+  const { editing } = useSelector((state) => state.transaction) || {};
+
+  console.log(editing);
+
+  return (
+    <>
+      <button className="font-bold cursor-pointer mb-3 text-white mt-2 px-4 py-2 border-0 bg-[#42855B] mx-auto block rounded-sm">
+        <Link to="/">Back</Link>
+      </button>
+
+      {editing?.id ? <Form /> : <FilterFrom />}
+
+      <FilteredTransaction />
+    </>
+  );
 };
 
 export default Transaction;

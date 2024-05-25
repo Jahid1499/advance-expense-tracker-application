@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   useAddTransactionMutation,
   useUpdateTransactionMutation,
 } from "../features/transactions/transactionsApi";
+import { editInActive } from "../features/transactions/transactionsSlice";
 import Error from "./Error";
 import Success from "./Success";
 
 const Form = () => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const dispatch = useDispatch();
 
   const { editing } = useSelector((state) => state.transaction) || {};
 
@@ -32,6 +34,7 @@ const Form = () => {
   ] = useUpdateTransactionMutation();
 
   useEffect(() => {
+    console.log(editing);
     const { id, name, amount, type } = editing || {};
     if (id) {
       setEditMode(true);
@@ -47,7 +50,7 @@ const Form = () => {
   const reset = () => {
     setName("");
     setType("");
-    setAmount("");
+    setAmount(0);
     setError("");
     setError("");
   };
@@ -63,11 +66,10 @@ const Form = () => {
       return false;
     }
 
-    if (amount != null || amount === 0) {
+    if (amount === 0) {
       setError("Must be insert amount");
       return false;
     }
-
     return true;
   };
 
@@ -87,14 +89,13 @@ const Form = () => {
 
   const handleUpdate = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-
     if (checkError()) {
       updateTransaction({
         id: editing.id,
         data: {
           name,
           type,
-          amount: Number(amount),
+          amount,
         },
       });
 
@@ -105,6 +106,7 @@ const Form = () => {
 
   const cancelEditMode = () => {
     reset();
+    dispatch(editInActive());
     setEditMode(false);
   };
 
@@ -178,7 +180,7 @@ const Form = () => {
             placeholder="Enter amount"
             name="amount"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => setAmount(Number(e.target.value))}
             className="px-1 py-1 border-[1px] border-current rounded-sm w-full"
           />
         </div>

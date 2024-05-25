@@ -3,7 +3,19 @@ import { apiSlice } from "../api/apiSlice";
 export const transactionsApi = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getTransactions: builder.query({
-            query: () => "/transactions"
+            query: () => `/transactions?_sort=id&_order=desc&_limit=${import.meta.env.VITE_ENVIRONMENT_PAGE_PER_TRANSACTION}`
+        }),
+
+        getFilteredTransactions: builder.query({
+            query: ({ search, type, pageNumber }) => `/transactions?${type?.length > 0 ? `type_like=${type}` : ''}${search !== "" ? `&q=${search}` : ''}&_page=${pageNumber}&_limit=${import.meta.env.VITE_ENVIRONMENT_PAGE_PER_TRANSACTION}&_sort=id&_order=desc`,
+
+            transformResponse(apiResponse, meta) {
+                const totalCount = meta?.response?.headers.get("X-Total-Count");
+                return {
+                    data: apiResponse,
+                    totalCount,
+                };
+            },
         }),
 
         addTransaction: builder.mutation({
@@ -30,7 +42,8 @@ export const transactionsApi = apiSlice.injectEndpoints({
         }),
 
 
+
     })
 })
 
-export const { useGetTransactionsQuery, useAddTransactionMutation, useDeleteTransactionMutation, useUpdateTransactionMutation } = transactionsApi;
+export const { useGetTransactionsQuery, useAddTransactionMutation, useDeleteTransactionMutation, useUpdateTransactionMutation, useGetFilteredTransactionsQuery } = transactionsApi;

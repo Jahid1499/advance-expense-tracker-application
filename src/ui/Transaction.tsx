@@ -18,6 +18,7 @@ const Transaction = ({ transaction }: TransactionTypes) => {
   const { id, name, amount, type } = transaction;
   const [deleteTransaction] = useDeleteTransactionMutation();
   const dispatch = useDispatch();
+
   const handleEdit = () => {
     dispatch(editActive(transaction));
   };
