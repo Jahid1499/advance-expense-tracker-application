@@ -17,6 +17,24 @@
       "type": "income",
       "amount": 5000,
       "id": 10
+    },
+    {
+      "name": "queue",
+      "type": "income",
+      "amount": 1000,
+      "id": 11
+    },
+    {
+      "name": "pen",
+      "type": "expense",
+      "amount": 100,
+      "id": 12
+    },
+    {
+      "name": "hotel-booking",
+      "type": "income",
+      "amount": 1000,
+      "id": 13
     }
   ]
 }

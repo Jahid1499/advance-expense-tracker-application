@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { useGetFilteredTransactionsQuery } from "../../features/transactions/transactionsApi";
 import Transaction from "../../ui/Transaction";
+import Pagination from "./Pagination";
 
 const FilteredTransaction = () => {
   const { search, type } = useSelector((state) => state.filters);
-  // const [skip, setSkip] = useState(true);
-  const pageNumber = 1;
+  const { pageNumber } = useSelector((state) => state.pagination);
 
   const {
     data: transactions,
@@ -33,6 +33,9 @@ const FilteredTransaction = () => {
     <>
       <p className="text-xl font-medium text-center my-4 ">Your Transactions</p>
       <ul>{content}</ul>
+      <div>
+        <Pagination total={transactions?.totalCount} />
+      </div>
     </>
   );
 };
