@@ -20,8 +20,6 @@ const Pagination = ({ total }: PaginationTypes) => {
     }
   }
 
-  console.log(pages);
-
   return (
     <>
       {pages.length > 0 &&

@@ -24,6 +24,20 @@ export const transactionsApi = apiSlice.injectEndpoints({
                 method: "POST",
                 body: data,
             }),
+
+            async onQueryStarted(_, { queryFulfilled, dispatch }) {
+                const { data } = await queryFulfilled;
+                if (data?.id) {
+                    dispatch(
+                        transactionsApi.util.updateQueryData("getTransactions", {}, (draft) => {
+                            if (draft.length == 5) {
+                                draft.pop()
+                            }
+                            draft.unshift(data)
+                        })
+                    );
+                }
+            },
         }),
 
         updateTransaction: builder.mutation({
@@ -32,6 +46,26 @@ export const transactionsApi = apiSlice.injectEndpoints({
                 method: "PATCH",
                 body: data,
             }),
+
+            async onQueryStarted({ id, data: { name, type, amount } }, { queryFulfilled, dispatch }) {
+
+                const updateDraft = dispatch(
+                    transactionsApi.util.updateQueryData("getTransactions", {}, (draft) => {
+                        const draftTodos = draft.find(
+                            (transaction) => transaction.id == id
+                        );
+                        draftTodos.name = name;
+                        draftTodos.type = type;
+                        draftTodos.amount = amount;
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch (error) {
+                    updateDraft.undo();
+                }
+            },
         }),
 
         deleteTransaction: builder.mutation({
@@ -39,6 +73,24 @@ export const transactionsApi = apiSlice.injectEndpoints({
                 url: `/transactions/${id}`,
                 method: "DELETE",
             }),
+
+            async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+                const updateDraft = dispatch(
+                    transactionsApi.util.updateQueryData("getTransactions", {}, (draft) => {
+                        const index = draft.findIndex(
+                            (transaction) => transaction.id == arg
+                        );
+                        draft.splice(index, 1)
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch (error) {
+                    updateDraft.undo();
+                }
+            },
+
         }),
 
 

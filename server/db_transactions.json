@@ -7,34 +7,16 @@
       "id": 4
     },
     {
-      "name": "compupter",
-      "type": "expense",
-      "amount": 800,
-      "id": 6
-    },
-    {
-      "name": "hotel-booking",
+      "name": "jahid",
       "type": "income",
-      "amount": 5000,
-      "id": 10
-    },
-    {
-      "name": "queue",
-      "type": "income",
-      "amount": 1000,
-      "id": 11
-    },
-    {
-      "name": "pen",
-      "type": "expense",
       "amount": 100,
-      "id": 12
+      "id": 7
     },
     {
-      "name": "hotel-booking",
+      "name": "hotel-booking 2",
       "type": "income",
       "amount": 1000,
-      "id": 13
+      "id": 8
     }
   ]
 }

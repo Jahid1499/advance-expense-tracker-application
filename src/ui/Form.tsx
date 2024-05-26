@@ -34,7 +34,6 @@ const Form = () => {
   ] = useUpdateTransactionMutation();
 
   useEffect(() => {
-    console.log(editing);
     const { id, name, amount, type } = editing || {};
     if (id) {
       setEditMode(true);
