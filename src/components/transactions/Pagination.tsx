@@ -1,12 +1,20 @@
 import { useSelector } from "react-redux";
 import Button from "./Button";
 
-type PaginationTypes = {
+type PaginationPropsTypes = {
   total: number;
 };
 
-const Pagination = ({ total }: PaginationTypes) => {
-  const { pageNumber } = useSelector((state) => state.pagination);
+type PaginationTypes = {
+  pagination: {
+    pageNumber: number;
+  };
+};
+
+const Pagination = ({ total }: PaginationPropsTypes) => {
+  const { pageNumber } = useSelector(
+    (state: PaginationTypes) => state.pagination
+  );
 
   const pages = [];
   if (total > 0) {

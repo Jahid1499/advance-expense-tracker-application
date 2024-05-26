@@ -4,8 +4,20 @@ import FilterFrom from "../components/transactions/FilterFrom";
 import FilteredTransaction from "../components/transactions/FilteredTransaction";
 import Form from "../ui/Form";
 
+type EditingTypes = {
+  transaction: {
+    editing: {
+      id: number;
+      name: string;
+      amount: number;
+      type: string;
+    };
+  };
+};
+
 const Transaction = () => {
-  const { editing } = useSelector((state) => state.transaction) || {};
+  const { editing } =
+    useSelector((state: EditingTypes) => state.transaction) || {};
 
   return (
     <>

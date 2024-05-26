@@ -3,9 +3,24 @@ import { useGetFilteredTransactionsQuery } from "../../features/transactions/tra
 import Transaction from "../../ui/Transaction";
 import Pagination from "./Pagination";
 
+type PaginationTypes = {
+  pagination: {
+    pageNumber: number;
+  };
+};
+
+type FiltersTypes = {
+  filters: {
+    search: string;
+    type: string;
+  };
+};
+
 const FilteredTransaction = () => {
-  const { search, type } = useSelector((state) => state.filters);
-  const { pageNumber } = useSelector((state) => state.pagination);
+  const { search, type } = useSelector((state: FiltersTypes) => state.filters);
+  const { pageNumber } = useSelector(
+    (state: PaginationTypes) => state.pagination
+  );
 
   const {
     data: transactions,
@@ -21,7 +36,7 @@ const FilteredTransaction = () => {
   if (isLoading) content = <p>Loading...</p>;
 
   if (!isLoading && isError)
-    content = <p className="error">There was an error occured</p>;
+    content = <p className="error">There was an error occurred</p>;
 
   if (!isLoading && !isError && transactions?.data?.length > 0) {
     content = transactions?.data?.map((transaction) => (

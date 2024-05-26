@@ -6,8 +6,17 @@ import {
   typed,
 } from "../../features/filters/filtersSlice";
 
+type FiltersTypes = {
+  filters: {
+    search: string;
+    type: string;
+  };
+};
+
 const FilterFrom = () => {
-  const { search, type: filterType } = useSelector((state) => state.filters);
+  const { search, type: filterType } = useSelector(
+    (state: FiltersTypes) => state.filters
+  );
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
