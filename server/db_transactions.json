@@ -7,16 +7,16 @@
       "id": 4
     },
     {
-      "name": "jahid",
-      "type": "income",
-      "amount": 100,
-      "id": 7
+      "name": "hotel-booking",
+      "type": "expense",
+      "amount": 10000,
+      "id": 6
     },
     {
-      "name": "hotel-booking 2",
-      "type": "income",
+      "name": "jahid",
+      "type": "expense",
       "amount": 1000,
-      "id": 8
+      "id": 7
     }
   ]
 }

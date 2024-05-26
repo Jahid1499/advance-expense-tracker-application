@@ -16,6 +16,8 @@ export const transactionsApi = apiSlice.injectEndpoints({
                     totalCount,
                 };
             },
+
+            providesTags: ['getAllTransaction'],
         }),
 
         addTransaction: builder.mutation({
@@ -48,7 +50,6 @@ export const transactionsApi = apiSlice.injectEndpoints({
             }),
 
             async onQueryStarted({ id, data: { name, type, amount } }, { queryFulfilled, dispatch }) {
-
                 const updateDraft = dispatch(
                     transactionsApi.util.updateQueryData("getTransactions", {}, (draft) => {
                         const draftTodos = draft.find(
@@ -66,6 +67,8 @@ export const transactionsApi = apiSlice.injectEndpoints({
                     updateDraft.undo();
                 }
             },
+
+            invalidatesTags: ['getAllTransaction'],
         }),
 
         deleteTransaction: builder.mutation({
@@ -90,6 +93,8 @@ export const transactionsApi = apiSlice.injectEndpoints({
                     updateDraft.undo();
                 }
             },
+
+            invalidatesTags: ['getAllTransaction'],
 
         }),
 
